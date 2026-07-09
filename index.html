@@ -12,7 +12,7 @@
     <meta property="og:image" content="https://vmc34.ru/assets/img/automation-panel.webp">
     <link rel="canonical" href="https://vmc34.ru/">
     <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=20260709-1">
   </head>
   <body>
     <a class="skip-link" href="#main">К содержанию</a>
@@ -30,7 +30,7 @@
       </nav>
       <a class="header-cta" href="#form">Обсудить проект</a>
       <details class="mobile-nav">
-        <summary aria-label="Открыть меню"><span></span><span></span><span></span></summary>
+        <summary aria-label="Меню сайта"><span></span><span></span><span></span></summary>
         <nav aria-label="Мобильная навигация">
           <a href="index.html#solutions">Решения</a>
           <a href="index.html#services">Услуги</a>
@@ -44,7 +44,10 @@
     <main id="main">
       <section class="hero" id="top" aria-label="Главный экран">
         <div class="hero-media" aria-hidden="true">
-          <img src="assets/img/automation-panel.webp" alt="" width="1600" height="1067" fetchpriority="high">
+          <video autoplay muted loop playsinline poster="assets/img/automation-panel.webp" preload="metadata">
+            <source src="assets/img/hero-automation-loop.mp4?v=20260709-1" type="video/mp4" media="(prefers-reduced-motion: no-preference)">
+            <img src="assets/img/automation-panel.webp" alt="" width="1600" height="1067">
+          </video>
         </div>
         <div class="hero-content">
           <p class="kicker">VMC / Волгоградский производственный центр</p>
@@ -102,26 +105,32 @@
           <article class="media-card">
             <img src="assets/img/hero-switchboards.webp" alt="Шкафы управления и электрощитовое оборудование" width="1600" height="1677" loading="lazy">
             <h3>Шкафы АСУ ТП и НКУ</h3>
+            <p>Управление технологическим оборудованием, распределение и учет электроэнергии.</p>
           </article>
           <article class="media-card">
             <img src="assets/img/pneumatic-system.webp" alt="Промышленная система управления пневмотранспортом" width="1260" height="1680" loading="lazy">
             <h3>Пневмотранспорт и дозирование</h3>
+            <p>Автоматическое взвешивание, точная подача сырья и контроль рецептур.</p>
           </article>
           <article class="media-card">
             <img src="assets/img/assembly-shop.webp" alt="Сборка электрощитов в производственном цехе" width="1600" height="1067" loading="lazy">
-            <h3>SCADA, WMS, диспетчеризация</h3>
+            <h3>SCADA, MES и диспетчеризация</h3>
+            <p>Операторский контроль, архивы, отчеты и оперативное управление производством.</p>
           </article>
           <article class="media-card">
             <img src="assets/img/contact-background.webp" alt="Производственная площадка с оборудованием" width="1600" height="1067" loading="lazy">
-            <h3>Конвейерные и транспортные системы</h3>
+            <h3>Управление электроприводами</h3>
+            <p>Автоматизация конвейеров, насосов и другого технологического оборудования.</p>
           </article>
           <article class="media-card">
             <img src="assets/img/hydraulic-station.webp" alt="Станция гидроуправления" width="1600" height="2133" loading="lazy">
-            <h3>Насосные и гидравлические станции</h3>
+            <h3>Учет ресурсов и энергоэффективность</h3>
+            <p>Многоуровневый мониторинг расхода ресурсов и контроль эффективности.</p>
           </article>
           <article class="media-card">
             <img src="assets/img/automation-panel.webp" alt="Промышленный шкаф управления" width="1600" height="1067" loading="lazy">
-            <h3>Пусконаладка и сервис</h3>
+            <h3>Интеграция производственных систем</h3>
+            <p>Связываем АСУ ТП, SCADA и учетные системы с ИТ-инфраструктурой предприятия.</p>
           </article>
         </div>
       </section>
@@ -275,13 +284,23 @@
           </dl>
         </div>
         <div class="contact-panel" id="form">
-          <form action="mailto:office@vmc34.ru" method="post" enctype="text/plain">
-            <label>Имя<input name="name" autocomplete="name" required></label>
+          <form action="mailto:office@vmc34.ru" method="post" enctype="text/plain" accept-charset="utf-8">
+            <label class="wide-field">Имя *<input name="name" autocomplete="name" required></label>
             <label>Компания<input name="company" autocomplete="organization"></label>
-            <label>Телефон<input name="phone" autocomplete="tel" required></label>
-            <label>Email<input name="email" type="email" autocomplete="email"></label>
+            <label>Должность<input name="position" autocomplete="organization-title"></label>
+            <label>Телефон *<input name="phone" type="tel" inputmode="tel" autocomplete="tel" required></label>
+            <label>Email *<input name="email" type="email" autocomplete="email" required></label>
             <label class="wide-field">Комментарий<textarea name="message" rows="4"></textarea></label>
-            <button type="submit">Отправить</button>
+            <label class="consent-field">
+              <input name="privacy_accepted" type="checkbox" value="yes" required>
+              <span>Ознакомлен(а) с <a href="privacy.html#policy" target="_blank" rel="noopener">политикой обработки персональных данных</a>.</span>
+            </label>
+            <label class="consent-field">
+              <input name="consent_given" type="checkbox" value="yes" required>
+              <span>Даю отдельное <a href="privacy.html#consent" target="_blank" rel="noopener">согласие на обработку персональных данных</a>.</span>
+            </label>
+            <p class="form-note">После нажатия откроется почтовая программа с заполненной заявкой.</p>
+            <button type="submit">Отправить по e-mail</button>
           </form>
         </div>
       </section>
@@ -293,9 +312,10 @@
       <nav aria-label="Нижняя навигация">
         <a href="index.html#solutions">Решения</a>
         <a href="index.html#services">Услуги</a>
-        <a href="projects.html">Проекты</a>
         <a href="index.html#about">О компании</a>
+        <a href="projects.html">Проекты</a>
         <a href="index.html#contacts">Контакты</a>
+        <a href="privacy.html">Конфиденциальность</a>
       </nav>
       <div class="footer-contacts" aria-label="Контакты">
         <a href="tel:+79950890070">+7 995 089 00 70</a>
