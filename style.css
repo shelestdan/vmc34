@@ -485,7 +485,6 @@ summary:focus-visible {
 .industry-grid,
 .about,
 .projects-preview,
-.contact-section,
 .site-footer,
 .page-hero,
 .project-list,
@@ -970,11 +969,13 @@ summary:focus-visible {
   grid-template-columns: minmax(0, .92fr) minmax(0, 1fr);
   gap: clamp(30px, 6vw, 86px);
   min-height: 0;
-  padding: clamp(70px, 8vw, 110px) clamp(18px, 5vw, 74px);
+  max-width: none;
+  padding-block: clamp(70px, 8vw, 110px);
+  padding-inline: max(clamp(18px, 5vw, 74px), calc((100vw - 1240px) / 2 + clamp(18px, 5vw, 74px)));
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
   background:
-    radial-gradient(circle at 100% 100%, rgba(255, 157, 0, .22), transparent 24%),
+    radial-gradient(circle at 100% 100%, rgba(255, 157, 0, .22), transparent 28%),
     #050505;
 }
 
@@ -1025,7 +1026,7 @@ summary:focus-visible {
   border: 1px solid rgba(255, 255, 255, .26);
   border-radius: 28px;
   padding: clamp(28px, 4vw, 48px);
-  background: rgba(0, 0, 0, .68);
+  background: #050505;
   box-shadow: var(--shadow);
 }
 
@@ -1275,13 +1276,11 @@ summary:focus-visible {
   from {
     opacity: 0;
     transform: translateY(18px);
-    filter: blur(4px);
   }
 
   to {
     opacity: 1;
     transform: translateY(0);
-    filter: blur(0);
   }
 }
 
