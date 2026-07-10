@@ -12,7 +12,7 @@
     <meta property="og:image" content="https://vmc34.ru/assets/img/automation-panel.webp">
     <link rel="canonical" href="https://vmc34.ru/">
     <link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="style.css?v=20260710-1">
+    <link rel="stylesheet" href="style.css?v=20260710-2">
   </head>
   <body>
     <a class="skip-link" href="#main">К содержанию</a>
@@ -282,12 +282,12 @@
         </div>
         <div class="contact-panel" id="form">
           <form action="mailto:office@vmc34.ru" method="post" enctype="text/plain" accept-charset="utf-8">
-            <label class="wide-field">Имя *<input name="name" autocomplete="name" required></label>
-            <label>Компания<input name="company" autocomplete="organization"></label>
-            <label>Должность<input name="position" autocomplete="organization-title"></label>
-            <label>Телефон *<input name="phone" type="tel" inputmode="tel" autocomplete="tel" required></label>
-            <label>Email *<input name="email" type="email" autocomplete="email" required></label>
-            <label class="wide-field">Комментарий<textarea name="message" rows="4"></textarea></label>
+            <label class="wide-field">Имя *<input name="name" autocomplete="name" minlength="2" maxlength="80" required></label>
+            <label>Компания<input name="company" autocomplete="organization" maxlength="120"></label>
+            <label>Должность<input name="position" autocomplete="organization-title" maxlength="120"></label>
+            <label>Телефон *<input name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="24" pattern="[+0-9 \(\)\-]{10,24}" required></label>
+            <label>Email *<input name="email" type="email" inputmode="email" autocomplete="email" maxlength="254" spellcheck="false" required></label>
+            <label class="wide-field">Комментарий<textarea name="message" rows="4" maxlength="1000"></textarea></label>
             <label class="consent-field">
               <input name="privacy_accepted" type="checkbox" value="yes" required>
               <span>Ознакомлен(а) с <a href="privacy.html#policy" target="_blank" rel="noopener">политикой обработки персональных данных</a>.</span>
@@ -324,5 +324,37 @@
       </div>
       <p>© ООО «Волгоградский производственный центр»</p>
     </footer>
+    <script>
+      (() => {
+        const form = document.querySelector('.contact-panel form');
+        if (!form) return;
+
+        const trimFields = Array.from(form.elements).filter((field) => 'value' in field && field.type !== 'checkbox');
+        const name = form.elements.name;
+        const phone = form.elements.phone;
+
+        const validate = () => {
+          const nameValue = name.value.trim();
+          const phoneValue = phone.value.trim();
+          const digits = phoneValue.replace(/\D/g, '');
+          const validChars = /^[+0-9 ()-]+$/.test(phoneValue);
+
+          name.setCustomValidity(nameValue ? '' : 'Укажите имя.');
+          phone.setCustomValidity(validChars && digits.length >= 10 && digits.length <= 15 ? '' : 'Укажите телефон: 10-15 цифр, можно +, пробелы, скобки и дефисы.');
+        };
+
+        form.addEventListener('input', validate);
+        form.addEventListener('submit', (event) => {
+          trimFields.forEach((field) => {
+            field.value = field.value.trim();
+          });
+          validate();
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            form.reportValidity();
+          }
+        });
+      })();
+    </script>
   </body>
 </html>
