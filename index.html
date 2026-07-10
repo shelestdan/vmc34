@@ -285,7 +285,7 @@
             <label class="wide-field">Имя *<input name="name" autocomplete="name" minlength="2" maxlength="80" required></label>
             <label>Компания<input name="company" autocomplete="organization" maxlength="120"></label>
             <label>Должность<input name="position" autocomplete="organization-title" maxlength="120"></label>
-            <label>Телефон *<input name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="24" pattern="[+0-9 \(\)\-]{10,24}" required></label>
+            <label>Телефон *<input name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="17" pattern="\+7\([0-9]{3}\)-[0-9]{3}-[0-9]{2}-[0-9]{2}" placeholder="+7(XXX)-XXX-XX-XX" required></label>
             <label>Email *<input name="email" type="email" inputmode="email" autocomplete="email" maxlength="254" spellcheck="false" required></label>
             <label class="wide-field">Комментарий<textarea name="message" rows="4" maxlength="1000"></textarea></label>
             <label class="consent-field">
@@ -332,22 +332,47 @@
         const trimFields = Array.from(form.elements).filter((field) => 'value' in field && field.type !== 'checkbox');
         const name = form.elements.name;
         const phone = form.elements.phone;
+        const phonePattern = /^\+7\(\d{3}\)-\d{3}-\d{2}-\d{2}$/;
+
+        const formatPhone = (value) => {
+          let digits = value.replace(/\D/g, '');
+          if (digits.startsWith('8')) digits = `7${digits.slice(1)}`;
+          if (digits.startsWith('7')) digits = digits.slice(1);
+          digits = digits.slice(0, 10);
+
+          if (!digits) return '';
+
+          let result = `+7(${digits.slice(0, 3)}`;
+          if (digits.length >= 3) result += `)-${digits.slice(3, 6)}`;
+          if (digits.length >= 6) result += `-${digits.slice(6, 8)}`;
+          if (digits.length >= 8) result += `-${digits.slice(8, 10)}`;
+          return result;
+        };
 
         const validate = () => {
           const nameValue = name.value.trim();
           const phoneValue = phone.value.trim();
-          const digits = phoneValue.replace(/\D/g, '');
-          const validChars = /^[+0-9 ()-]+$/.test(phoneValue);
 
           name.setCustomValidity(nameValue ? '' : 'Укажите имя.');
-          phone.setCustomValidity(validChars && digits.length >= 10 && digits.length <= 15 ? '' : 'Укажите телефон: 10-15 цифр, можно +, пробелы, скобки и дефисы.');
+          phone.setCustomValidity(phonePattern.test(phoneValue) ? '' : 'Укажите телефон в формате +7(XXX)-XXX-XX-XX.');
         };
 
-        form.addEventListener('input', validate);
+        form.addEventListener('input', (event) => {
+          if (event.target === phone) phone.value = formatPhone(phone.value);
+          validate();
+        });
+        phone.addEventListener('focus', () => {
+          if (!phone.value) phone.value = '+7(';
+        });
+        phone.addEventListener('blur', () => {
+          if (phone.value === '+7(') phone.value = '';
+          validate();
+        });
         form.addEventListener('submit', (event) => {
           trimFields.forEach((field) => {
             field.value = field.value.trim();
           });
+          phone.value = formatPhone(phone.value);
           validate();
           if (!form.checkValidity()) {
             event.preventDefault();
